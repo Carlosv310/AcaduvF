@@ -180,6 +180,12 @@ class _AvatarpageWidgetState extends State<AvatarpageWidget>
                                 decoration: BoxDecoration(
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: Image.asset(
+                                      'assets/images/tempImagejPZjJb.bmp',
+                                    ).image,
+                                  ),
                                   shape: BoxShape.circle,
                                 ),
                                 child: AuthUserStreamWidget(
