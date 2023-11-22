@@ -5,25 +5,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'question3pagee_model.dart';
-export 'question3pagee_model.dart';
+import 'question3page_model.dart';
+export 'question3page_model.dart';
 
-class Question3pageeWidget extends StatefulWidget {
-  const Question3pageeWidget({Key? key}) : super(key: key);
+class Question3pageWidget extends StatefulWidget {
+  const Question3pageWidget({Key? key}) : super(key: key);
 
   @override
-  _Question3pageeWidgetState createState() => _Question3pageeWidgetState();
+  _Question3pageWidgetState createState() => _Question3pageWidgetState();
 }
 
-class _Question3pageeWidgetState extends State<Question3pageeWidget> {
-  late Question3pageeModel _model;
+class _Question3pageWidgetState extends State<Question3pageWidget> {
+  late Question3pageModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => Question3pageeModel());
+    _model = createModel(context, () => Question3pageModel());
   }
 
   @override

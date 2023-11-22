@@ -268,7 +268,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                         enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .alternate,
+                                                .secondaryText,
                                             width: 2.0,
                                           ),
                                           borderRadius:
@@ -277,7 +277,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                         focusedBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .primary,
+                                                .white,
                                             width: 2.0,
                                           ),
                                           borderRadius:
@@ -347,7 +347,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .alternate,
+                                              .secondaryText,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -356,7 +356,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                              .white,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -425,7 +425,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .alternate,
+                                              .secondaryText,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -434,7 +434,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                              .white,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -501,7 +501,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       enabledBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .alternate,
+                                              .secondaryText,
                                           width: 2.0,
                                         ),
                                         borderRadius:
@@ -510,7 +510,7 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                       focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primary,
+                                              .white,
                                           width: 2.0,
                                         ),
                                         borderRadius:

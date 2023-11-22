@@ -125,28 +125,31 @@ class _Question1pageWidgetState extends State<Question1pageWidget> {
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).white,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0x00000000),
+                                      color: FlutterFlowTheme.of(context).white,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   errorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0x00000000),
+                                      color: FlutterFlowTheme.of(context)
+                                          .customColor4,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   focusedErrorBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0x00000000),
+                                      color: FlutterFlowTheme.of(context)
+                                          .customColor4,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),

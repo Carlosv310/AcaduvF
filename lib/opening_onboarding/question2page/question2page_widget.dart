@@ -119,14 +119,15 @@ class _Question2pageWidgetState extends State<Question2pageWidget> {
                                       ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).white,
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Color(0x00000000),
+                                      color: FlutterFlowTheme.of(context).white,
                                       width: 1.0,
                                     ),
                                     borderRadius: BorderRadius.circular(16.0),
@@ -176,7 +177,7 @@ class _Question2pageWidgetState extends State<Question2pageWidget> {
                                         _model.textController.text),
                                   ));
 
-                                  context.pushNamed('Question3pagee');
+                                  context.pushNamed('Question3page');
                                 },
                                 text: 'Continue',
                                 options: FFButtonOptions(

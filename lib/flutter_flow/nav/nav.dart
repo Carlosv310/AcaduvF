@@ -504,9 +504,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SATSelectedWidget(),
         ),
         FFRoute(
-          name: 'Question3pagee',
-          path: '/question3pagee',
-          builder: (context, params) => Question3pageeWidget(),
+          name: 'Question3page',
+          path: '/question3page',
+          builder: (context, params) => Question3pageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
