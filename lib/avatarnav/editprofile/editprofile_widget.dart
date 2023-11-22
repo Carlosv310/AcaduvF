@@ -566,8 +566,6 @@ class _EditprofileWidgetState extends State<EditprofileWidget> {
                                             .update(createUsersRecordData(
                                           photoUrl: _model.uploadedFileUrl,
                                         ));
-                                      } else {
-                                        return;
                                       }
 
                                       context.pushNamed('Avatarpage');
