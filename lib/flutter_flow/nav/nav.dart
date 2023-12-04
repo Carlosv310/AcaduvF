@@ -80,13 +80,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? NavBarPage() : SignUpPageWidget(),
+          appStateNotifier.loggedIn ? NavBarPage() : OpeningpageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? NavBarPage() : SignUpPageWidget(),
+              appStateNotifier.loggedIn ? NavBarPage() : OpeningpageWidget(),
         ),
         FFRoute(
           name: 'Explorepage',
@@ -121,7 +121,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'FriendsAdd',
           path: '/friendsAdd',
-          builder: (context, params) => FriendsAddWidget(),
+          asyncParams: {
+            'users': getDoc(['users'], UsersRecord.fromSnapshot),
+          },
+          builder: (context, params) => FriendsAddWidget(
+            users: params.getParam('users', ParamType.Document),
+          ),
         ),
         FFRoute(
           name: 'SignUpPage',
@@ -240,9 +245,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Friendspage',
           path: '/friendspage',
-          builder: (context, params) => params.isEmpty
-              ? NavBarPage(initialPage: 'Friendspage')
-              : FriendspageWidget(),
+          builder: (context, params) => FriendspageWidget(
+            users: params.getParam(
+                'users', ParamType.DocumentReference, false, ['users']),
+          ),
         ),
         FFRoute(
           name: 'editprofile',
@@ -507,6 +513,51 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Question3page',
           path: '/question3page',
           builder: (context, params) => Question3pageWidget(),
+        ),
+        FFRoute(
+          name: 'DeleteAccount',
+          path: '/deleteAccount',
+          builder: (context, params) => DeleteAccountWidget(
+            newname: params.getParam('newname', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'followingpageno',
+          path: '/followingpageno',
+          asyncParams: {
+            'users': getDoc(['users'], UsersRecord.fromSnapshot),
+          },
+          builder: (context, params) => FollowingpagenoWidget(
+            users: params.getParam('users', ParamType.Document),
+          ),
+        ),
+        FFRoute(
+          name: 'navfriends',
+          path: '/navfriends',
+          asyncParams: {
+            'following': getDoc(['users'], UsersRecord.fromSnapshot),
+          },
+          builder: (context, params) => params.isEmpty
+              ? NavBarPage(initialPage: 'navfriends')
+              : NavfriendsWidget(
+                  following: params.getParam('following', ParamType.Document),
+                ),
+        ),
+        FFRoute(
+          name: 'followingpageyes',
+          path: '/followingpageyes',
+          builder: (context, params) => FollowingpageyesWidget(
+            users: params.getParam(
+                'users', ParamType.DocumentReference, false, ['users']),
+          ),
+        ),
+        FFRoute(
+          name: 'friendspagetest',
+          path: '/friendspagetest',
+          builder: (context, params) => FriendspagetestWidget(
+            users: params.getParam(
+                'users', ParamType.DocumentReference, false, ['users']),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -673,7 +724,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.location);
-            return '/signUpPage';
+            return '/openingpage';
           }
           return null;
         },

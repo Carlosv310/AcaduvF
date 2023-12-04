@@ -130,3 +130,12 @@ export '/opening_onboarding/s_a_t_selected/s_a_t_selected_widget.dart'
     show SATSelectedWidget;
 export '/opening_onboarding/question3page/question3page_widget.dart'
     show Question3pageWidget;
+export '/avatarnav/delete_account/delete_account_widget.dart'
+    show DeleteAccountWidget;
+export '/friendsnav/followingpageno/followingpageno_widget.dart'
+    show FollowingpagenoWidget;
+export '/friendsnav/navfriends/navfriends_widget.dart' show NavfriendsWidget;
+export '/friendsnav/followingpageyes/followingpageyes_widget.dart'
+    show FollowingpageyesWidget;
+export '/friendsnav/friendspagetest/friendspagetest_widget.dart'
+    show FriendspagetestWidget;

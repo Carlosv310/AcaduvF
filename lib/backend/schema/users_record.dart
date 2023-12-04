@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:from_css_color/from_css_color.dart';
+import '/backend/algolia/serialization_util.dart';
+import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -66,6 +69,11 @@ class UsersRecord extends FirestoreRecord {
   int get readingpoints => _readingpoints ?? 0;
   bool hasReadingpoints() => _readingpoints != null;
 
+  // "following" field.
+  List<DocumentReference>? _following;
+  List<DocumentReference> get following => _following ?? const [];
+  bool hasFollowing() => _following != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -77,6 +85,7 @@ class UsersRecord extends FirestoreRecord {
     _mathpoints = castToType<int>(snapshotData['mathpoints']);
     _englishpoints = castToType<int>(snapshotData['englishpoints']);
     _readingpoints = castToType<int>(snapshotData['readingpoints']);
+    _following = getDataList(snapshotData['following']);
   }
 
   static CollectionReference get collection =>
@@ -98,6 +107,68 @@ class UsersRecord extends FirestoreRecord {
     DocumentReference reference,
   ) =>
       UsersRecord._(reference, mapFromFirestore(data));
+
+  static UsersRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
+      UsersRecord.getDocumentFromData(
+        {
+          'email': snapshot.data['email'],
+          'display_name': snapshot.data['display_name'],
+          'photo_url': snapshot.data['photo_url'],
+          'uid': snapshot.data['uid'],
+          'created_time': convertAlgoliaParam(
+            snapshot.data['created_time'],
+            ParamType.DateTime,
+            false,
+          ),
+          'phone_number': snapshot.data['phone_number'],
+          'gradelevel': convertAlgoliaParam(
+            snapshot.data['gradelevel'],
+            ParamType.int,
+            false,
+          ),
+          'mathpoints': convertAlgoliaParam(
+            snapshot.data['mathpoints'],
+            ParamType.int,
+            false,
+          ),
+          'englishpoints': convertAlgoliaParam(
+            snapshot.data['englishpoints'],
+            ParamType.int,
+            false,
+          ),
+          'readingpoints': convertAlgoliaParam(
+            snapshot.data['readingpoints'],
+            ParamType.int,
+            false,
+          ),
+          'following': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['following'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+        },
+        UsersRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<UsersRecord>> search({
+    String? term,
+    FutureOr<LatLng>? location,
+    int? maxResults,
+    double? searchRadiusMeters,
+    bool useCache = false,
+  }) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'users',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+            useCache: useCache,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   @override
   String toString() =>
@@ -147,6 +218,7 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
 
   @override
   bool equals(UsersRecord? e1, UsersRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.email == e2?.email &&
         e1?.displayName == e2?.displayName &&
         e1?.photoUrl == e2?.photoUrl &&
@@ -156,7 +228,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.gradelevel == e2?.gradelevel &&
         e1?.mathpoints == e2?.mathpoints &&
         e1?.englishpoints == e2?.englishpoints &&
-        e1?.readingpoints == e2?.readingpoints;
+        e1?.readingpoints == e2?.readingpoints &&
+        listEquality.equals(e1?.following, e2?.following);
   }
 
   @override
@@ -170,7 +243,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.gradelevel,
         e?.mathpoints,
         e?.englishpoints,
-        e?.readingpoints
+        e?.readingpoints,
+        e?.following
       ]);
 
   @override

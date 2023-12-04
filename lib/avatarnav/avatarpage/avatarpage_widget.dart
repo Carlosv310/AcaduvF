@@ -131,16 +131,45 @@ class _AvatarpageWidgetState extends State<AvatarpageWidget>
                             Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 12.0),
-                              child: Text(
-                                '10',
-                                textAlign: TextAlign.center,
-                                style: FlutterFlowTheme.of(context)
-                                    .headlineSmall
-                                    .override(
-                                      fontFamily: 'Outfit',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                    ),
+                              child: StreamBuilder<List<UsersRecord>>(
+                                stream: queryUsersRecord(
+                                  queryBuilder: (usersRecord) =>
+                                      usersRecord.where(
+                                    'following',
+                                    arrayContains: currentUserReference,
+                                  ),
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            Color(0xFFE6585A),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  List<UsersRecord> textUsersRecordList =
+                                      snapshot.data!;
+                                  return Text(
+                                    columnUsersRecord!.following.length
+                                        .toString(),
+                                    textAlign: TextAlign.center,
+                                    style: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .override(
+                                          fontFamily: 'Outfit',
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                        ),
+                                  );
+                                },
                               ),
                             ),
                             Text(
@@ -208,35 +237,58 @@ class _AvatarpageWidgetState extends State<AvatarpageWidget>
                         ),
                       ),
                       Expanded(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 12.0),
-                              child: Text(
-                                '15',
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(
+                              'followingpageyes',
+                              queryParameters: {
+                                'users': serializeParam(
+                                  columnUsersRecord?.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 12.0),
+                                child: AuthUserStreamWidget(
+                                  builder: (context) => Text(
+                                    (currentUserDocument?.following?.toList() ??
+                                            [])
+                                        .length
+                                        .toString(),
+                                    textAlign: TextAlign.center,
+                                    style: FlutterFlowTheme.of(context)
+                                        .headlineSmall
+                                        .override(
+                                          fontFamily: 'Outfit',
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                        ),
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                'Following',
                                 textAlign: TextAlign.center,
                                 style: FlutterFlowTheme.of(context)
-                                    .headlineSmall
+                                    .labelMedium
                                     .override(
-                                      fontFamily: 'Outfit',
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      fontFamily: 'Readex Pro',
+                                      color:
+                                          FlutterFlowTheme.of(context).accent4,
                                     ),
                               ),
-                            ),
-                            Text(
-                              'Following',
-                              textAlign: TextAlign.center,
-                              style: FlutterFlowTheme.of(context)
-                                  .labelMedium
-                                  .override(
-                                    fontFamily: 'Readex Pro',
-                                    color: FlutterFlowTheme.of(context).accent4,
-                                  ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -539,94 +591,65 @@ class _AvatarpageWidgetState extends State<AvatarpageWidget>
                                                 padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         12.0, 12.0, 12.0, 12.0),
-                                                child: FutureBuilder<int>(
-                                                  future:
-                                                      queryUsersRecordCount(),
-                                                  builder: (context, snapshot) {
-                                                    // Customize what your widget looks like when it's loading.
-                                                    if (!snapshot.hasData) {
-                                                      return Center(
-                                                        child: SizedBox(
-                                                          width: 50.0,
-                                                          height: 50.0,
-                                                          child:
-                                                              CircularProgressIndicator(
-                                                            valueColor:
-                                                                AlwaysStoppedAnimation<
-                                                                    Color>(
-                                                              Color(0xFFE6585A),
-                                                            ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    FaIcon(
+                                                      FontAwesomeIcons
+                                                          .solidStar,
+                                                      color: Color(0xFFE6585A),
+                                                      size: 44.0,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  12.0,
+                                                                  0.0,
+                                                                  4.0),
+                                                      child:
+                                                          AuthUserStreamWidget(
+                                                        builder: (context) =>
+                                                            Text(
+                                                          valueOrDefault<
+                                                              String>(
+                                                            valueOrDefault(
+                                                                    currentUserDocument
+                                                                        ?.readingpoints,
+                                                                    0)
+                                                                .toString(),
+                                                            '0',
                                                           ),
-                                                        ),
-                                                      );
-                                                    }
-                                                    int columnCount =
-                                                        snapshot.data!;
-                                                    return Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        FaIcon(
-                                                          FontAwesomeIcons
-                                                              .solidStar,
-                                                          color:
-                                                              Color(0xFFE6585A),
-                                                          size: 44.0,
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      12.0,
-                                                                      0.0,
-                                                                      4.0),
-                                                          child:
-                                                              AuthUserStreamWidget(
-                                                            builder:
-                                                                (context) =>
-                                                                    Text(
-                                                              valueOrDefault<
-                                                                  String>(
-                                                                valueOrDefault(
-                                                                        currentUserDocument
-                                                                            ?.readingpoints,
-                                                                        0)
-                                                                    .toString(),
-                                                                '0',
-                                                              ),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .displaySmall
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Outfit',
-                                                                    fontSize:
-                                                                        20.0,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                  ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          'Reading Points',
                                                           textAlign:
                                                               TextAlign.center,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
-                                                              .labelSmall,
+                                                              .displaySmall
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Outfit',
+                                                                fontSize: 20.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
                                                         ),
-                                                      ],
-                                                    );
-                                                  },
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Reading Points',
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelSmall,
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),

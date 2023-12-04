@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -71,6 +71,23 @@ class NameStruct extends FFFirebaseStruct {
           data['usergrade'],
           ParamType.bool,
           true,
+        ),
+      );
+
+  static NameStruct fromAlgoliaData(Map<String, dynamic> data) => NameStruct(
+        username: convertAlgoliaParam<bool>(
+          data['username'],
+          ParamType.bool,
+          true,
+        ),
+        usergrade: convertAlgoliaParam<bool>(
+          data['usergrade'],
+          ParamType.bool,
+          true,
+        ),
+        firestoreUtilData: FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 
